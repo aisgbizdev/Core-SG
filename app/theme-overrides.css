@@ -1,0 +1,97 @@
+﻿:root {
+  --background-dark: #040814;
+  --foreground-dark: #e5e7eb;
+  --muted-dark: #9ca3af;
+  --card-dark: rgba(255, 255, 255, 0.04);
+  --border-dark: rgba(255, 255, 255, 0.08);
+  --accent-dark: #22d3ee;
+  --shadow-dark: 0 25px 60px rgba(0, 0, 0, 0.45);
+
+  --background-light: #f6f8fb;
+  --foreground-light: #0f172a;
+  --muted-light: #475569;
+  --card-light: rgba(255, 255, 255, 0.96);
+  --border-light: rgba(15, 23, 42, 0.1);
+  --accent-light: #0284c7;
+  --shadow-light: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="dark"] {
+  --background: var(--background-dark);
+  --foreground: var(--foreground-dark);
+  --muted: var(--muted-dark);
+  --card: var(--card-dark);
+  --border: var(--border-dark);
+  --accent: var(--accent-dark);
+  --shadow: var(--shadow-dark);
+}
+
+html[data-theme="light"] {
+  --background: var(--background-light);
+  --foreground: var(--foreground-light);
+  --muted: var(--muted-light);
+  --card: var(--card-light);
+  --border: var(--border-light);
+  --accent: var(--accent-light);
+  --shadow: var(--shadow-light);
+  color-scheme: light;
+}
+
+/* generic text utilities */
+.text-white { color: var(--foreground) !important; }
+.text-muted { color: var(--muted) !important; }
+.text-cyan-100, .text-cyan-200, .text-cyan-300, .text-cyan-400 { color: var(--accent) !important; }
+.text-amber-200, .text-amber-300 { color: #c2410c !important; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Inter", sans-serif;
+  min-height: 100vh;
+  background-attachment: fixed;
+  transition: background 250ms ease, color 250ms ease;
+}
+
+a, p, span, h1, h2, h3, h4, h5, h6 { color: var(--foreground); }
+
+/* panels */
+.glass-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* buttons & chips */
+.bg-white\/5 { background-color: rgba(255, 255, 255, 0.05); }
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.10); }
+html[data-theme="light"] .bg-white\/5 { background-color: rgba(15, 23, 42, 0.04); }
+html[data-theme="light"] .bg-white\/10 { background-color: rgba(15, 23, 42, 0.06); }
+html[data-theme="light"] .border-white\/10, html[data-theme="light"] .border-white\/15, html[data-theme="light"] .border-white\/20 {
+  border-color: var(--border) !important;
+}
+html[data-theme="light"] .border-cyan-400\/40,
+html[data-theme="light"] .border-cyan-400\/30,
+html[data-theme="light"] .border-cyan-500\/20 { border-color: var(--accent) !important; }
+html[data-theme="light"] .bg-cyan-500\/10,
+html[data-theme="light"] .bg-cyan-500\/15,
+html[data-theme="light"] .bg-cyan-500\/20 { background-color: rgba(2, 132, 199, 0.12) !important; }
+html[data-theme="light"] .bg-black\/70 { background-color: var(--background) !important; }
+
+/* gradient backdrop overlays */
+body::before, body::after { content: ""; }
+body::before {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.12), transparent 25%),
+    radial-gradient(circle at 80% 0%, rgba(14, 165, 233, 0.14), transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.1), transparent 35%);
+  z-index: -1;
+}
+
+html[data-theme="light"] body::before {
+  background: none;
+}
+

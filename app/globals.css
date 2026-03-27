@@ -1,26 +1,130 @@
 @import "tailwindcss";
+@import "./theme-overrides.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+html {
+  --background: #040814;
+  --foreground: #e5e7eb;
+  --muted: #9ca3af;
+  --card: rgba(255, 255, 255, 0.04);
+  --card-strong: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #22d3ee;
+  --accent-strong: #38bdf8;
+  --glow: 0 20px 80px rgba(34, 211, 238, 0.25);
+  --shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+}
+
+[data-theme=\"light\"] {
+  --background: #f6f8fb;
+  --foreground: #0f172a;
+  --muted: #475569;
+  --card: rgba(255, 255, 255, 0.9);
+  --card-strong: rgba(255, 255, 255, 1);
+  --border: rgba(15, 23, 42, 0.08);
+  --accent: #0ea5e9;
+  --accent-strong: #0284c7;
+  --glow: 0 20px 80px rgba(14, 165, 233, 0.2);
+  --shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Inter", sans-serif;
+  min-height: 100vh;
+  background-attachment: fixed;
+  transition: background 300ms ease, color 300ms ease;
+}
+
+[data-theme="light"] body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.glass-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+  transition: background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+[data-theme="light"] .glass-panel {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+  border-color: var(--border);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.text-glow {
+  text-shadow: 0 10px 30px rgba(34, 211, 238, 0.25);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+  border-radius: 999px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+/* global utility overrides for consistent theming */
+.text-white { color: var(--foreground) !important; }
+.text-muted { color: var(--muted) !important; }
+
+.border-white\/10, .border-white\/15, .border-white\/20 { border-color: var(--border) !important; }
+.bg-white\/5 { background-color: rgba(255, 255, 255, 0.05) !important; }
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.10) !important; }
+
+[data-theme="light"] .bg-white\/5 { background-color: rgba(15, 23, 42, 0.04) !important; }
+[data-theme="light"] .bg-white\/10 { background-color: rgba(15, 23, 42, 0.06) !important; }
+[data-theme="light"] .border-white\/10, [data-theme="light"] .border-white\/15, [data-theme="light"] .border-white\/20 {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+/* Loading shimmer */
+.loading-shine {
+  position: relative;
+  overflow: hidden;
+}
+.loading-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  animation: shine 1.2s infinite;
+}
+@keyframes shine {
+  100% { transform: translateX(100%); }
 }
