@@ -58,7 +58,7 @@ export function Sidebar() {
               </Link>
 
               {item.label === "Projects" && (
-                <div className="ml-2 pl-4 space-y-1 max-h-60 overflow-auto pr-1">
+                <div className="ml-2 pl-4 space-y-1">
                   {projects.map((p) => {
                     const subActive = pathname === `/project/${p.slug}`;
                     return (
