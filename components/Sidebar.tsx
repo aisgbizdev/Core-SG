@@ -14,14 +14,18 @@ import {
   Factory,
   ChevronDown,
   Bot,
+  Building2,
 } from "lucide-react";
 import { projects } from "@/data/projects";
+import { chatgptLinks } from "@/data/chatgpts";
+import { fivePtLinks } from "@/data/fivePt";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
   { href: "/projects", label: "Projects", icon: Grid },
   { href: "/project/sgcc", label: "Operasional", icon: Factory },
   { href: "/chatgpts", label: "ChatGPTS", icon: Bot },
+  { href: "/five-pt", label: "5 PT", icon: Building2 },
   { href: "/favorites", label: "Favorites", icon: Star },
   { href: "/activity", label: "Activity", icon: Activity },
   { href: "/settings", label: "Settings", icon: Settings },
@@ -37,45 +41,16 @@ const operationalNavItems = projects
   .slice()
   .sort((a, b) => a.name.localeCompare(b.name));
 
-const chatgptItems = [
-  {
-    name: "AiSG",
-    url: "https://chatgpt.com/g/g-68f60e2ded048191816ee3e67eea952f-aisg-audit-intelligence-system-growth",
-  },
-  {
-    name: "BIAS",
-    url: "https://chatgpt.com/g/g-68f512b32ef88191985d7e15f828ae7d-adaptive-behavioral-ai-for-creators-marketers",
-  },
-  {
-    name: "Darvis",
-    url: "https://chatgpt.com/g/g-698fece36da481919d91ecde826444f1-darvis",
-  },
-  {
-    name: "Editorial Engine",
-    url: "https://chatgpt.com/g/g-69a661c1e9608191aa03b732251d6d1a-editorial-engine",
-  },
-  {
-    name: "NM Ai",
-    url: "https://chatgpt.com/g/g-68f5045d612881919fe0b62f2963fdc6-nm23-ai-market-intelligence",
-  },
-  {
-    name: "SGCC",
-    url: "https://chatgpt.com/g/g-693fa1b8cc388191b1ceffe68d41b514-sg-control-center",
-  },
-  {
-    name: "SG Solid",
-    url: "https://chatgpt.com/g/g-690354fea4448191a1239464b9a2a31e-see-the-world-brighter",
-  },
-].sort((a, b) => a.name.localeCompare(b.name));
-
 export function Sidebar() {
   const pathname = usePathname();
   const isProjectsActive = pathname === "/projects" || pathname.startsWith("/project/");
   const isOperationalActive = operationalNavItems.some(
     (p) => pathname === `/project/${p.slug}`
   );
-  const isChatgptActive = pathname === "/chatgpts";
+  const isChatgptActive = pathname === "/chatgpts" || pathname.startsWith("/chatgpts/");
+  const isFivePtActive = pathname === "/five-pt" || pathname.startsWith("/five-pt/");
   const [chatgptOpen, setChatgptOpen] = useState(isChatgptActive);
+  const [fivePtOpen, setFivePtOpen] = useState(isFivePtActive);
   const [projectsOpen, setProjectsOpen] = useState(isProjectsActive);
   const [operationalOpen, setOperationalOpen] = useState(isOperationalActive);
 
@@ -239,21 +214,97 @@ export function Sidebar() {
 
                 {chatgptOpen && (
                   <div className="ml-2 pl-4 space-y-1">
-                    {chatgptItems.map((c) => (
-                      <a
-                        key={c.url}
-                        href={c.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={cn(
-                          "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
-                          "hover:border-white/10 hover:bg-white/5 text-muted"
-                        )}
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        <span className="truncate">{c.name}</span>
-                      </a>
-                    ))}
+                    <Link
+                      href="/chatgpts"
+                      className={cn(
+                        "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                        "hover:border-white/10 hover:bg-white/5",
+                        pathname === "/chatgpts" &&
+                          "border-white/15 bg-white/10 text-white shadow-cyan-500/10"
+                      )}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      <span className="truncate">All ChatGPTS</span>
+                    </Link>
+                    {chatgptLinks.map((c) => {
+                      return (
+                        <a
+                          key={c.slug}
+                          href={c.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={cn(
+                            "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                            "hover:border-white/10 hover:bg-white/5 text-muted"
+                          )}
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="truncate">{c.name}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          if (item.label === "5 PT") {
+            return (
+              <div key={item.href} className="space-y-2">
+                <button
+                  onClick={() => setFivePtOpen((v) => !v)}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all",
+                    "border border-transparent hover:border-white/10",
+                    "hover:bg-white/5",
+                    fivePtOpen
+                      ? "bg-white/10 text-white border-white/15 shadow-lg shadow-cyan-500/20"
+                      : "text-muted"
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="font-medium flex-1 text-left">{item.label}</span>
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 transition-transform",
+                      fivePtOpen ? "rotate-180" : "rotate-0"
+                    )}
+                  />
+                </button>
+
+                {fivePtOpen && (
+                  <div className="ml-2 pl-4 space-y-1">
+                    <Link
+                      href="/five-pt"
+                      className={cn(
+                        "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                        "hover:border-white/10 hover:bg-white/5",
+                        pathname === "/five-pt" &&
+                          "border-white/15 bg-white/10 text-white shadow-cyan-500/10"
+                      )}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      <span className="truncate">All 5 PT</span>
+                    </Link>
+                    {fivePtLinks.map((c) => {
+                      const subActive = pathname === `/five-pt/${c.slug}`;
+                      return (
+                        <Link
+                          key={c.slug}
+                          href={`/five-pt/${c.slug}`}
+                          className={cn(
+                            "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                            "hover:border-white/10 hover:bg-white/5",
+                            subActive &&
+                              "border-white/15 bg-white/10 text-white shadow-cyan-500/10"
+                          )}
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="truncate">{c.name}</span>
+                        </Link>
+                      );
+                    })}
                   </div>
                 )}
               </div>
