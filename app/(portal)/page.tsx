@@ -24,6 +24,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { ActivityList } from "@/components/ActivityList";
 import { StatsCard } from "@/components/StatsCard";
 import { projects } from "@/data/projects";
+import { fivePtLinks } from "@/data/fivePt";
 import { useFavorites } from "@/hooks/useFavorites";
 import { usePreferences } from "@/hooks/usePreferences";
 
@@ -190,6 +191,36 @@ export default function HomePage() {
               </div>
               <ArrowUpRight className="h-4 w-4 text-cyan-100" />
             </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <SectionHeader
+          title="5 PT"
+          subtitle="Brokerage portals in one place"
+          actions={
+            <Link
+              href="/five-pt"
+              className="text-sm font-semibold text-cyan-100 hover:text-white"
+            >
+              View all
+            </Link>
+          }
+        />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {fivePtLinks.map((item) => (
+            <Link
+              key={item.slug}
+              href={`/five-pt/${item.slug}`}
+              className="glass-panel rounded-3xl border border-white/10 px-4 py-3 flex items-center justify-between hover:border-cyan-300/40 hover:bg-white/5 transition-colors"
+            >
+              <div>
+                <p className="text-white font-semibold">{item.name}</p>
+                <p className="text-xs text-muted">Open webview</p>
+              </div>
+              <ArrowUpRight className="h-4 w-4 text-cyan-100" />
+            </Link>
           ))}
         </div>
       </section>
