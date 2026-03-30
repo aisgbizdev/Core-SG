@@ -19,7 +19,11 @@ export const metadata: Metadata = {
   description:
     "Core SG is the executive command portal that brings every strategic platform into one luxurious, focused experience.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", sizes: "64x64", type: "image/png" },
+    ],
+    shortcut: "/favicon.svg",
   },
 };
 

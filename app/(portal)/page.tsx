@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity as ActivityIcon,
+  ArrowUpRight,
   Compass,
   Flame,
   Heart,
@@ -32,6 +33,37 @@ const mockActivity = [
   { title: "Added BIAS to favorites", time: "Yesterday", tag: "Favorite" },
   { title: "Reviewed AiSG dashboard", time: "2 days ago", tag: "Audit" },
 ];
+
+const chatgptLinks = [
+  {
+    name: "aisg",
+    url: "https://chatgpt.com/g/g-68f60e2ded048191816ee3e67eea952f-aisg-audit-intelligence-system-growth",
+  },
+  {
+    name: "bias",
+    url: "https://chatgpt.com/g/g-68f512b32ef88191985d7e15f828ae7d-adaptive-behavioral-ai-for-creators-marketers",
+  },
+  {
+    name: "Darvis",
+    url: "https://chatgpt.com/g/g-698fece36da481919d91ecde826444f1-darvis",
+  },
+  {
+    name: "Editorial Engine",
+    url: "https://chatgpt.com/g/g-69a661c1e9608191aa03b732251d6d1a-editorial-engine",
+  },
+  {
+    name: "NM Ai",
+    url: "https://chatgpt.com/g/g-68f5045d612881919fe0b62f2963fdc6-nm23-ai-market-intelligence",
+  },
+  {
+    name: "sgcc",
+    url: "https://chatgpt.com/g/g-693fa1b8cc388191b1ceffe68d41b514-sg-control-center",
+  },
+  {
+    name: "SG Solid",
+    url: "https://chatgpt.com/g/g-690354fea4448191a1239464b9a2a31e-see-the-world-brighter",
+  },
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
@@ -105,6 +137,13 @@ export default function HomePage() {
                 <ActivityIcon className="h-5 w-5" />
                 Recent Activity
               </Link>
+              <Link
+                href="/chatgpts"
+                className="inline-flex items-center gap-2 rounded-2xl border border-amber-300/30 bg-amber-300/10 px-5 py-3 text-sm font-semibold text-amber-50 hover:bg-amber-300/20"
+              >
+                <Wand2 className="h-5 w-5" />
+                Open ChatGPTS
+              </Link>
             </div>
             <SearchInput
               value={search}
@@ -120,6 +159,38 @@ export default function HomePage() {
             <StatsCard label="Analytics Stack" value={`${analyticsCount}`} trend="BI + Visualization" icon={TrendingUp} accent="text-cyan-200" />
             <StatsCard label="Favorites" value={hydrated ? favorites.length.toString() : "—"} trend="Personal picks" icon={Heart} accent="text-amber-200" />
           </div>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <SectionHeader
+          title="ChatGPTS"
+          subtitle="Jump straight into the guided GPT experiences"
+          actions={
+            <Link
+              href="/chatgpts"
+              className="text-sm font-semibold text-cyan-100 hover:text-white"
+            >
+              View in sidebar
+            </Link>
+          }
+        />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {chatgptLinks.map((item) => (
+            <a
+              key={item.url}
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+              className="glass-panel rounded-3xl border border-white/10 px-4 py-3 flex items-center justify-between hover:border-cyan-300/40 hover:bg-white/5 transition-colors"
+            >
+              <div>
+                <p className="text-white font-semibold">{item.name}</p>
+                <p className="text-xs text-muted">Opens in new tab</p>
+              </div>
+              <ArrowUpRight className="h-4 w-4 text-cyan-100" />
+            </a>
+          ))}
         </div>
       </section>
 
