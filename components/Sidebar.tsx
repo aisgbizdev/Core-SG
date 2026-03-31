@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import type { SVGProps } from "react";
 import { cn } from "@/lib/utils";
 import {
   Grid,
@@ -15,17 +16,22 @@ import {
   ChevronDown,
   Bot,
   Building2,
+  Share2,
 } from "lucide-react";
 import { projects } from "@/data/projects";
 import { chatgptLinks } from "@/data/chatgpts";
 import { fivePtLinks } from "@/data/fivePt";
+
+type SosmedAccount = string | { label: string; path: string };
+type SosmedGroup = { platform: string; baseUrl: string; accounts: SosmedAccount[] };
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
   { href: "/projects", label: "Projects", icon: Grid },
   { href: "/project/sgcc", label: "Operasional", icon: Factory },
   { href: "/chatgpts", label: "ChatGPTS", icon: Bot },
-  { href: "/five-pt", label: "5 PT", icon: Building2 },
+  { href: "/five-pt", label: "Portal PT", icon: Building2 },
+  { href: "/sosmed", label: "Sosmed", icon: Share2 },
   { href: "/favorites", label: "Favorites", icon: Star },
   { href: "/activity", label: "Activity", icon: Activity },
   { href: "/settings", label: "Settings", icon: Settings },
@@ -41,6 +47,78 @@ const operationalNavItems = projects
   .slice()
   .sort((a, b) => a.name.localeCompare(b.name));
 
+const sosmedGroups: SosmedGroup[] = [
+  {
+    platform: "TikTok",
+    baseUrl: "https://www.tiktok.com/",
+    accounts: [
+      "@newsmaker23_talk",
+      "@newsmaker23",
+      "@solidgold_news",
+      "@sgb.digital",
+      "@bias23_pro",
+    ],
+  },
+  {
+    platform: "Instagram",
+    baseUrl: "https://www.instagram.com/",
+    accounts: ["news.maker23", "sginsight_"],
+  },
+  {
+    platform: "YouTube",
+    baseUrl: "https://www.youtube.com/",
+    accounts: [{ label: "Newsmaker 23", path: "channel/UCivhDV9fDdAwFgj2ct1x6DQ" }],
+  },
+  {
+    platform: "Facebook",
+    baseUrl: "https://www.facebook.com/",
+    accounts: ["Solidgoldnews"],
+  },
+];
+
+// Minimal brand glyphs (monochrome, 24x24, currentColor)
+const TikTokIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+    <path
+      fill="currentColor"
+      d="M16.6 6.3c-.9-.6-1.6-1.4-1.9-2.3h-2.1v10.4c0 1.2-1 2.2-2.2 2.2s-2.2-1-2.2-2.2 1-2.2 2.2-2.2c.23 0 .46.04.68.1V9.9c-.23-.03-.46-.05-.68-.05-2.32 0-4.2 1.88-4.2 4.2 0 2.3 1.88 4.2 4.2 4.2s4.2-1.9 4.2-4.2V8.5c.63.45 1.34.78 2.11.95V7.1c-.66-.17-1.28-.48-1.99-.8z"
+    />
+  </svg>
+);
+
+const InstagramIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+    <rect x="4" y="4" width="16" height="16" rx="4" ry="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="16.5" cy="7.5" r="1" fill="currentColor" />
+  </svg>
+);
+
+const YoutubeIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+    <path
+      fill="currentColor"
+      d="M21 9.5c0-1.5-.3-2.3-.7-2.8-.5-.6-1.1-.8-2.2-.9C16.9 5.6 14 5.6 12 5.6s-4.9 0-6.1.2c-1.1.1-1.7.3-2.2.9C3.3 7.2 3 8 3 9.5S3 12.9 3 14.4c0 1.5.3 2.3.7 2.8.5.6 1.1.8 2.2.9 1.2.2 4.1.2 6.1.2s4.9 0 6.1-.2c1.1-.1 1.7-.3 2.2-.9.4-.5.7-1.3.7-2.8.1-1.5.1-3 .1-4.5zM10.4 9.1l4.3 2.4-4.3 2.4V9.1z"
+    />
+  </svg>
+);
+
+const FacebookIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
+    <path
+      fill="currentColor"
+      d="M13.4 9.2V7.6c0-.7.2-1.1 1.2-1.1h1.2V4H13c-2.6 0-3.6 1.3-3.6 3.6v1.6H7.5V12h1.9v8h4v-8h2.1l.3-2.8h-2.4z"
+    />
+  </svg>
+);
+
+const sosmedIconMap = {
+  TikTok: TikTokIcon,
+  Instagram: InstagramIcon,
+  YouTube: YoutubeIcon,
+  Facebook: FacebookIcon,
+} as const;
+
 export function Sidebar() {
   const pathname = usePathname();
   const isProjectsActive = pathname === "/projects" || pathname.startsWith("/project/");
@@ -51,6 +129,8 @@ export function Sidebar() {
   const isFivePtActive = pathname === "/five-pt" || pathname.startsWith("/five-pt/");
   const [chatgptOpen, setChatgptOpen] = useState(isChatgptActive);
   const [fivePtOpen, setFivePtOpen] = useState(isFivePtActive);
+  const [sosmedOpen, setSosmedOpen] = useState(false);
+  const [sosmedPlatformOpen, setSosmedPlatformOpen] = useState<Record<string, boolean>>({});
   const [projectsOpen, setProjectsOpen] = useState(isProjectsActive);
   const [operationalOpen, setOperationalOpen] = useState(isOperationalActive);
 
@@ -269,7 +349,7 @@ export function Sidebar() {
             );
           }
 
-          if (item.label === "5 PT") {
+          if (item.href === "/five-pt") {
             return (
               <div key={item.href} className="space-y-2">
                 <button
@@ -305,7 +385,7 @@ export function Sidebar() {
                       )}
                     >
                       <ExternalLink className="h-4 w-4" />
-                      <span className="truncate">All 5 PT</span>
+                      <span className="truncate">All Portal PT</span>
                     </Link>
                     {fivePtLinks.map((c) => {
                       const subActive = pathname === `/five-pt/${c.slug}`;
@@ -325,6 +405,106 @@ export function Sidebar() {
                         </Link>
                       );
                     })}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          if (item.label === "Sosmed") {
+            return (
+              <div key={item.href} className="space-y-2">
+                <button
+                  onClick={() => setSosmedOpen((v) => !v)}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all",
+                    "border border-transparent hover:border-white/10",
+                    "hover:bg-white/5",
+                    sosmedOpen
+                      ? "bg-white/10 text-white border-white/15 shadow-lg shadow-cyan-500/20"
+                      : "text-muted"
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="font-medium flex-1 text-left">{item.label}</span>
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 transition-transform",
+                      sosmedOpen ? "rotate-180" : "rotate-0"
+                    )}
+                  />
+                </button>
+
+                {sosmedOpen && (
+                  <div className="ml-2 pl-4 space-y-1">
+                    {sosmedGroups.map((group) => (
+                      <div key={group.platform} className="space-y-1">
+                        <button
+                          onClick={() =>
+                            setSosmedPlatformOpen((prev) => ({
+                              ...prev,
+                              [group.platform]: !prev[group.platform],
+                            }))
+                          }
+                          className={cn(
+                            "w-full flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                            "hover:border-white/10 hover:bg-white/5",
+                            sosmedPlatformOpen[group.platform] &&
+                              "border-white/15 bg-white/10 text-white shadow-cyan-500/10"
+                          )}
+                        >
+                          {(
+                            sosmedIconMap[group.platform as keyof typeof sosmedIconMap] ??
+                            ExternalLink
+                          )({ className: "h-4 w-4" })}
+                          <span className="truncate flex-1 text-left">{group.platform}</span>
+                          <ChevronDown
+                            className={cn(
+                              "h-4 w-4 transition-transform",
+                              sosmedPlatformOpen[group.platform] ? "rotate-180" : "rotate-0"
+                            )}
+                          />
+                        </button>
+
+                        {sosmedPlatformOpen[group.platform] && (
+                          <>
+                            {group.accounts.length > 0 ? (
+                              group.accounts.map((account) => {
+                                const isObject = typeof account === "object" && account !== null;
+                                const label = isObject ? (account as any).label : (account as string);
+                                const handle = isObject
+                                  ? (account as any).path
+                                  : (account as string).startsWith("@")
+                                  ? (account as string).slice(1)
+                                  : (account as string);
+                                const href =
+                                  group.platform === "TikTok"
+                                    ? `${group.baseUrl}@${handle}`
+                                    : `${group.baseUrl}${handle}`;
+                                return (
+                                  <a
+                                    key={label}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={cn(
+                                      "flex items-center gap-2 rounded-2xl px-5 py-2 text-sm border border-transparent",
+                                      "hover:border-white/10 hover:bg-white/5 text-muted"
+                                    )}
+                                  >
+                                    <span className="truncate">{label}</span>
+                                  </a>
+                                );
+                              })
+                            ) : (
+                              <div className="px-5 py-2 text-sm text-muted italic">
+                                Belum ada akun terdaftar
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
