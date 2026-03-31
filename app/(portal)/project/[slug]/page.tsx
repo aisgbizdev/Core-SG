@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { projects } from "@/data/projects";
 import { Topbar } from "@/components/Topbar";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { SgccIframe } from "@/components/SgccIframe";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -28,12 +29,20 @@ export default async function ProjectWebviewPage({ params }: Props) {
             Open in new tab
           </a>
         </div>
-        <iframe
-          src={project.url}
-          title={project.name}
-          className="w-full min-h-[70vh] lg:min-h-[80vh] bg-black/60"
-          allow="fullscreen; clipboard-read; clipboard-write"
-        />
+        {project.slug === "sgcc" ? (
+          <SgccIframe
+            src={project.url}
+            title={project.name}
+            className="w-full min-h-[70vh] lg:min-h-[80vh] bg-black/60"
+          />
+        ) : (
+          <iframe
+            src={project.url}
+            title={project.name}
+            className="w-full min-h-[70vh] lg:min-h-[80vh] bg-black/60"
+            allow="fullscreen; clipboard-read; clipboard-write"
+          />
+        )}
       </div>
     </div>
   );
