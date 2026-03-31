@@ -166,6 +166,26 @@ export function Sidebar() {
                   <div className="ml-2 pl-4 space-y-1">
                     {operationalNavItems.map((p) => {
                       const subActive = pathname === `/project/${p.slug}`;
+                      const isSgcc = p.slug === "sgcc";
+                      if (isSgcc) {
+                        return (
+                          <a
+                            key={p.id}
+                            href={p.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={cn(
+                              "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                              "hover:border-white/10 hover:bg-white/5",
+                              subActive &&
+                                "border-white/15 bg-white/10 text-white shadow-cyan-500/10"
+                            )}
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                            <span className="truncate">{p.name}</span>
+                          </a>
+                        );
+                      }
                       return (
                         <Link
                           key={p.id}

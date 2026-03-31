@@ -26,6 +26,7 @@ export function ProjectCard({
   enableMotion = true,
 }: ProjectCardProps) {
   const url = `/project/${project.slug}`;
+  const isSgcc = project.slug === "sgcc";
 
   return (
     <motion.div
@@ -65,10 +66,12 @@ export function ProjectCard({
           <p className="truncate">{project.owner}</p>
         </div>
         <Link
-          href={url}
+          href={isSgcc ? project.url : url}
+          target={isSgcc ? "_blank" : undefined}
+          rel={isSgcc ? "noopener noreferrer" : undefined}
           className="inline-flex items-center justify-center gap-2 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-100 hover:bg-cyan-500/20 transition-colors w-full"
         >
-          Open
+          {isSgcc ? "Buka di tab baru" : "Open"}
           <ExternalLink className="h-4 w-4" />
         </Link>
       </div>
