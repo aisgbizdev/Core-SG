@@ -135,7 +135,7 @@ export function Sidebar() {
   const [operationalOpen, setOperationalOpen] = useState(isOperationalActive);
 
   return (
-    <aside className="glass-panel w-full sm:w-64 lg:w-72 rounded-3xl p-6 space-y-8 shadow-2xl border border-white/10 min-h-[80vh] lg:min-h-[calc(100vh-48px)] backdrop-blur-2xl">
+    <aside className="glass-panel flex w-full min-h-[80vh] flex-col rounded-3xl border border-white/10 p-6 shadow-2xl backdrop-blur-2xl sm:w-64 lg:h-[calc(100vh-32px)] lg:min-h-[calc(100vh-32px)] lg:w-72 lg:overflow-hidden">
       <div className="flex items-center gap-3">
         <Image
           src="/logo-core.svg"
@@ -151,7 +151,7 @@ export function Sidebar() {
         </div>
       </div>
 
-      <nav className="space-y-2">
+      <nav className="mt-8 flex-1 space-y-2 overflow-y-auto pr-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = pathname === item.href;
@@ -532,7 +532,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-auto rounded-2xl border border-cyan-500/20 bg-gradient-to-br from-cyan-500/15 to-blue-600/10 p-4 shadow-lg shadow-cyan-500/25">
+      <div className="mt-8 rounded-2xl border border-cyan-500/20 bg-gradient-to-br from-cyan-500/15 to-blue-600/10 p-4 shadow-lg shadow-cyan-500/25">
         <p className="text-sm text-cyan-100 font-semibold">One Access</p>
         <p className="text-lg font-semibold text-white">All Solutions</p>
         <p className="text-sm text-muted mt-2">
