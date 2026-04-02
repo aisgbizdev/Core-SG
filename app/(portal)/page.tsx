@@ -53,8 +53,16 @@ const chatgptLinks = [
     url: "https://chatgpt.com/g/g-69a661c1e9608191aa03b732251d6d1a-editorial-engine",
   },
   {
+    name: "Flex Sales",
+    url: "https://chatgpt.com/g/g-69cde65d2fa081919907393fcd892e6e-flex-sales",
+  },
+  {
     name: "NM Ai",
     url: "https://chatgpt.com/g/g-68f5045d612881919fe0b62f2963fdc6-nm23-ai-market-intelligence",
+  },
+  {
+    name: "Reguler Sales",
+    url: "https://chatgpt.com/g/g-69cdfc23553081918d0fdec0f3332f18-regular-sales",
   },
   {
     name: "sgcc",
