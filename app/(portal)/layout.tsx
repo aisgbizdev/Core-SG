@@ -50,7 +50,7 @@ export default function PortalLayout({
       />
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-[82vw] max-w-xs p-4 transition-transform duration-300 lg:hidden",
+          "fixed inset-y-0 left-0 z-50 w-[82vw] max-w-xs overflow-y-auto p-4 transition-transform duration-300 lg:hidden",
           "bg-[#0b1220]/85 backdrop-blur-2xl",
           open ? "translate-x-0" : "-translate-x-full"
         )}
