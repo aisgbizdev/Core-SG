@@ -5,7 +5,6 @@ import { useState } from "react";
 import type { SVGProps } from "react";
 import { cn } from "@/lib/utils";
 import {
-  Grid,
   Star,
   Activity,
   Settings,
@@ -15,8 +14,10 @@ import {
   Factory,
   ChevronDown,
   Bot,
+  Cpu,
   Building2,
   Share2,
+  GraduationCap,
 } from "lucide-react";
 import { projects } from "@/data/projects";
 import { chatgptLinks } from "@/data/chatgpts";
@@ -27,7 +28,8 @@ type SosmedGroup = { platform: string; baseUrl: string; accounts: SosmedAccount[
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/projects", label: "Projects", icon: Grid },
+  { href: "/projects", label: "Ai Product", icon: Cpu },
+  { href: "/project/ebook", label: "Edu Product", icon: GraduationCap },
   { href: "/project/sgcc", label: "Operasional", icon: Factory },
   { href: "/chatgpts", label: "ChatGPTS", icon: Bot },
   { href: "/five-pt", label: "Portal PT", icon: Building2 },
@@ -38,8 +40,13 @@ const navItems = [
 ];
 
 const operationalSlugs = ["sgcc", "occ"];
-const projectNavItems = projects
-  .filter((p) => !operationalSlugs.includes(p.slug))
+const eduProductSlugs = ["ebook", "edukasi", "newsmaker", "riskguard"];
+const aiProductNavItems = projects
+  .filter((p) => !operationalSlugs.includes(p.slug) && !eduProductSlugs.includes(p.slug))
+  .slice()
+  .sort((a, b) => a.name.localeCompare(b.name));
+const eduProductNavItems = projects
+  .filter((p) => eduProductSlugs.includes(p.slug))
   .slice()
   .sort((a, b) => a.name.localeCompare(b.name));
 const operationalNavItems = projects
@@ -121,7 +128,12 @@ const sosmedIconMap = {
 
 export function Sidebar() {
   const pathname = usePathname();
-  const isProjectsActive = pathname === "/projects" || pathname.startsWith("/project/");
+  const isAiProductActive =
+    pathname === "/projects" ||
+    aiProductNavItems.some((p) => pathname === `/project/${p.slug}`);
+  const isEduProductActive = eduProductNavItems.some(
+    (p) => pathname === `/project/${p.slug}`
+  );
   const isOperationalActive = operationalNavItems.some(
     (p) => pathname === `/project/${p.slug}`
   );
@@ -131,7 +143,8 @@ export function Sidebar() {
   const [fivePtOpen, setFivePtOpen] = useState(isFivePtActive);
   const [sosmedOpen, setSosmedOpen] = useState(false);
   const [sosmedPlatformOpen, setSosmedPlatformOpen] = useState<Record<string, boolean>>({});
-  const [projectsOpen, setProjectsOpen] = useState(isProjectsActive);
+  const [aiProductOpen, setAiProductOpen] = useState(isAiProductActive);
+  const [eduProductOpen, setEduProductOpen] = useState(isEduProductActive);
   const [operationalOpen, setOperationalOpen] = useState(isOperationalActive);
 
   return (
@@ -156,16 +169,16 @@ export function Sidebar() {
           const Icon = item.icon;
           const active = pathname === item.href;
 
-          if (item.label === "Projects") {
+          if (item.label === "Ai Product") {
             return (
               <div key={item.href} className="space-y-2">
                 <button
-                  onClick={() => setProjectsOpen((v) => !v)}
+                  onClick={() => setAiProductOpen((v) => !v)}
                   className={cn(
                     "w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all",
                     "border border-transparent hover:border-white/10",
                     "hover:bg-white/5",
-                    projectsOpen
+                    aiProductOpen
                       ? "bg-white/10 text-white border-white/15 shadow-lg shadow-cyan-500/20"
                       : "text-muted"
                   )}
@@ -175,12 +188,12 @@ export function Sidebar() {
                   <ChevronDown
                     className={cn(
                       "h-4 w-4 transition-transform",
-                      projectsOpen ? "rotate-180" : "rotate-0"
+                      aiProductOpen ? "rotate-180" : "rotate-0"
                     )}
                   />
                 </button>
 
-                {projectsOpen && (
+                {aiProductOpen && (
                   <div className="ml-2 pl-4 space-y-1">
                     <Link
                       href="/projects"
@@ -192,9 +205,59 @@ export function Sidebar() {
                       )}
                     >
                       <ExternalLink className="h-4 w-4" />
-                      <span className="truncate">All Projects</span>
+                      <span className="truncate">All Ai Product</span>
                     </Link>
-                    {projectNavItems.map((p) => {
+                    {aiProductNavItems.map((p) => {
+                      const subActive = pathname === `/project/${p.slug}`;
+                      return (
+                        <Link
+                          key={p.id}
+                          href={`/project/${p.slug}`}
+                          className={cn(
+                            "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                            "hover:border-white/10 hover:bg-white/5",
+                            subActive &&
+                              "border-white/15 bg-white/10 text-white shadow-cyan-500/10"
+                          )}
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="truncate">{p.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          if (item.label === "Edu Product") {
+            return (
+              <div key={item.href} className="space-y-2">
+                <button
+                  onClick={() => setEduProductOpen((v) => !v)}
+                  className={cn(
+                    "w-full flex items-center gap-3 px-4 py-3 rounded-2xl transition-all",
+                    "border border-transparent hover:border-white/10",
+                    "hover:bg-white/5",
+                    eduProductOpen
+                      ? "bg-white/10 text-white border-white/15 shadow-lg shadow-cyan-500/20"
+                      : "text-muted"
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
+                  <span className="font-medium flex-1 text-left">{item.label}</span>
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 transition-transform",
+                      eduProductOpen ? "rotate-180" : "rotate-0"
+                    )}
+                  />
+                </button>
+
+                {eduProductOpen && (
+                  <div className="ml-2 pl-4 space-y-1">
+                    {eduProductNavItems.map((p) => {
                       const subActive = pathname === `/project/${p.slug}`;
                       return (
                         <Link
