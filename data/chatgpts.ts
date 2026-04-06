@@ -14,7 +14,7 @@ export const chatgptLinks: ChatgptLink[] = [
   {
     name: "BIAS",
     slug: "bias",
-    url: "https://chatgpt.com/g/g-68f512b32ef88191985d7e15f828ae7d-adaptive-behavioral-ai-for-creators-marketers",
+    url: "https://chatgpt.com/g/g-69d0bb0116608191a22c82ac34823d73-bias",
   },
   {
     name: "Darvis",

@@ -82,6 +82,17 @@ export const projects: Project[] = [
     owner: "Operations Team",
   },
   {
+    id: "acc",
+    name: "ACC",
+    slug: "acc",
+    description: "Access control and coordination workspace",
+    status: "Active",
+    category: "Operations",
+    icon: "circuit-board",
+    url: "https://apucc.replit.app/",
+    owner: "Operations Team",
+  },
+  {
     id: "newsmaker",
     name: "Newsmaker",
     slug: "newsmaker",

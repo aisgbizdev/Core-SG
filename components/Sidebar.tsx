@@ -8,7 +8,6 @@ import {
   Star,
   Activity,
   Settings,
-  UserRound,
   Home,
   ExternalLink,
   Factory,
@@ -26,6 +25,10 @@ import { fivePtLinks } from "@/data/fivePt";
 type SosmedAccount = string | { label: string; path: string };
 type SosmedGroup = { platform: string; baseUrl: string; accounts: SosmedAccount[] };
 
+function isSosmedAccountObject(account: SosmedAccount): account is Exclude<SosmedAccount, string> {
+  return typeof account === "object" && account !== null;
+}
+
 const navItems = [
   { href: "/", label: "Home", icon: Home },
   { href: "/projects", label: "Ai Product", icon: Cpu },
@@ -39,7 +42,7 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
-const operationalSlugs = ["sgcc", "occ"];
+const operationalSlugs = ["sgcc", "occ", "acc"];
 const eduProductSlugs = ["ebook", "edukasi", "newsmaker", "riskguard"];
 const aiProductNavItems = projects
   .filter((p) => !operationalSlugs.includes(p.slug) && !eduProductSlugs.includes(p.slug))
@@ -513,13 +516,12 @@ export function Sidebar() {
                           <>
                             {group.accounts.length > 0 ? (
                               group.accounts.map((account) => {
-                                const isObject = typeof account === "object" && account !== null;
-                                const label = isObject ? (account as any).label : (account as string);
-                                const handle = isObject
-                                  ? (account as any).path
-                                  : (account as string).startsWith("@")
-                                  ? (account as string).slice(1)
-                                  : (account as string);
+                                const label = isSosmedAccountObject(account) ? account.label : account;
+                                const handle = isSosmedAccountObject(account)
+                                  ? account.path
+                                  : account.startsWith("@")
+                                  ? account.slice(1)
+                                  : account;
                                 const href =
                                   group.platform === "TikTok"
                                     ? `${group.baseUrl}@${handle}`
