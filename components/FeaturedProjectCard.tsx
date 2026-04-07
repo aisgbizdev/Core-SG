@@ -22,7 +22,8 @@ export function FeaturedProjectCard({
   isFavorite,
   enableMotion = true,
 }: FeaturedProjectCardProps) {
-  const url = `/project/${project.slug}`;
+  const isAcc = project.slug === "acc";
+  const url = isAcc ? project.url : `/project/${project.slug}`;
 
   return (
     <motion.div
@@ -47,13 +48,25 @@ export function FeaturedProjectCard({
             <p className="mt-1 text-sm text-muted max-w-xl">{project.description}</p>
             <p className="mt-2 text-sm text-muted">Owner · {project.owner}</p>
             <div className="mt-4 flex items-center gap-3">
-              <Link
-                href={url}
-                className="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:border-cyan-300/60 hover:bg-cyan-500/15 transition"
-              >
-                Launch
-                <ArrowUpRight className="h-4 w-4" />
-              </Link>
+              {isAcc ? (
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:border-cyan-300/60 hover:bg-cyan-500/15 transition"
+                >
+                  Launch
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              ) : (
+                <Link
+                  href={url}
+                  className="inline-flex items-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:border-cyan-300/60 hover:bg-cyan-500/15 transition"
+                >
+                  Launch
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              )}
             </div>
           </div>
         </div>

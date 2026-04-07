@@ -25,7 +25,8 @@ export function ProjectCard({
   compact,
   enableMotion = true,
 }: ProjectCardProps) {
-  const url = `/project/${project.slug}`;
+  const isAcc = project.slug === "acc";
+  const url = isAcc ? project.url : `/project/${project.slug}`;
 
   return (
     <motion.div
@@ -45,9 +46,20 @@ export function ProjectCard({
           </div>
           <div>
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-              <Link href={url} className="hover:text-cyan-100 transition-colors">
-                {project.name}
-              </Link>
+              {isAcc ? (
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-cyan-100 transition-colors"
+                >
+                  {project.name}
+                </a>
+              ) : (
+                <Link href={url} className="hover:text-cyan-100 transition-colors">
+                  {project.name}
+                </Link>
+              )}
               <span className={cn("text-xs font-medium", categoryColors[project.category])}>
                 {project.category}
               </span>
@@ -64,13 +76,25 @@ export function ProjectCard({
           <div className="h-1.5 w-1.5 rounded-full bg-white/30" />
           <p className="truncate">{project.owner}</p>
         </div>
-        <Link
-          href={url}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-100 hover:bg-cyan-500/20 transition-colors w-full"
-        >
-          Open
-          <ExternalLink className="h-4 w-4" />
-        </Link>
+        {isAcc ? (
+          <a
+            href={url}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-100 hover:bg-cyan-500/20 transition-colors w-full"
+          >
+            Open
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        ) : (
+          <Link
+            href={url}
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-100 hover:bg-cyan-500/20 transition-colors w-full"
+          >
+            Open
+            <ExternalLink className="h-4 w-4" />
+          </Link>
+        )}
       </div>
     </motion.div>
   );

@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { projects } from "@/data/projects";
 import { Topbar } from "@/components/Topbar";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -11,6 +11,9 @@ export default async function ProjectWebviewPage({ params }: Props) {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   if (!project) return notFound();
+  if (project.slug === "acc") {
+    redirect(project.url);
+  }
 
   return (
     <div className="space-y-4">
