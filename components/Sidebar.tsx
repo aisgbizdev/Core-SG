@@ -353,7 +353,7 @@ export function Sidebar() {
                       )}
                     >
                       <ExternalLink className="h-4 w-4" />
-                      <span className="truncate">SSCC</span>
+                      <span className="truncate">SCC</span>
                     </a>
                   </div>
                 )}
