@@ -43,6 +43,7 @@ const navItems = [
 ];
 
 const operationalSlugs = ["sgcc", "occ", "acc"];
+const ssccUrl = "https://ed27-115-85-69-214.ngrok-free.app/";
 const eduProductSlugs = ["ebook", "edukasi", "newsmaker", "riskguard"];
 const aiProductNavItems = projects
   .filter((p) => !operationalSlugs.includes(p.slug) && !eduProductSlugs.includes(p.slug))
@@ -342,6 +343,18 @@ export function Sidebar() {
                         </Link>
                       );
                     })}
+                    <a
+                      href={ssccUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={cn(
+                        "flex items-center gap-2 rounded-2xl px-3 py-2 text-sm border border-transparent",
+                        "hover:border-white/10 hover:bg-white/5 text-muted"
+                      )}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      <span className="truncate">SSCC</span>
+                    </a>
                   </div>
                 )}
               </div>
