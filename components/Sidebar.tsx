@@ -31,11 +31,11 @@ function isSosmedAccountObject(account: SosmedAccount): account is Exclude<Sosme
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/projects", label: "Ai Product", icon: Cpu },
-  { href: "/project/ebook", label: "Edu Product", icon: GraduationCap },
-  { href: "/project/sgcc", label: "Operasional", icon: Factory },
-  { href: "/chatgpts", label: "ChatGPTS", icon: Bot },
   { href: "/five-pt", label: "Portal PT", icon: Building2 },
+  { href: "/project/sgcc", label: "Division", icon: Factory },
+  { href: "/project/ebook", label: "Edu Product", icon: GraduationCap },
+  { href: "/projects", label: "Ai Product", icon: Cpu },
+  { href: "/chatgpts", label: "ChatGPTS", icon: Bot },
   { href: "/sosmed", label: "Sosmed", icon: Share2 },
   { href: "/favorites", label: "Favorites", icon: Star },
   { href: "/activity", label: "Activity", icon: Activity },
@@ -44,6 +44,11 @@ const navItems = [
 
 const operationalSlugs = ["sgcc", "occ", "acc"];
 const ssccUrl = "https://ed27-115-85-69-214.ngrok-free.app/";
+const divisionLabelBySlug: Record<string, string> = {
+  acc: "APUPPT",
+  occ: "Operasional",
+  sgcc: "DK/DU",
+};
 const eduProductSlugs = ["ebook", "edukasi", "newsmaker", "riskguard"];
 const aiProductNavItems = projects
   .filter((p) => !operationalSlugs.includes(p.slug) && !eduProductSlugs.includes(p.slug))
@@ -285,7 +290,7 @@ export function Sidebar() {
             );
           }
 
-          if (item.label === "Operasional") {
+          if (item.label === "Division") {
             return (
               <div key={item.href} className="space-y-2">
                 <button
@@ -331,7 +336,7 @@ export function Sidebar() {
                             className={itemClassName}
                           >
                             <ExternalLink className="h-4 w-4" />
-                            <span className="truncate">{p.name}</span>
+                            <span className="truncate">{divisionLabelBySlug[p.slug] ?? p.name}</span>
                           </a>
                         );
                       }
@@ -339,7 +344,7 @@ export function Sidebar() {
                       return (
                         <Link key={p.id} href={`/project/${p.slug}`} className={itemClassName}>
                           <ExternalLink className="h-4 w-4" />
-                          <span className="truncate">{p.name}</span>
+                          <span className="truncate">{divisionLabelBySlug[p.slug] ?? p.name}</span>
                         </Link>
                       );
                     })}
@@ -353,7 +358,7 @@ export function Sidebar() {
                       )}
                     >
                       <ExternalLink className="h-4 w-4" />
-                      <span className="truncate">SCC</span>
+                      <span className="truncate">SGB Sales</span>
                     </a>
                   </div>
                 )}
