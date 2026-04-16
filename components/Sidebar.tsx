@@ -34,7 +34,7 @@ const navItems = [
   { href: "/five-pt", label: "Portal PT", icon: Building2 },
   { href: "/project/sgcc", label: "Division", icon: Factory },
   { href: "/project/ebook", label: "Edu Product", icon: GraduationCap },
-  { href: "/projects", label: "Ai Product", icon: Cpu },
+  { href: "/projects", label: "Mobile Ai", icon: Cpu },
   { href: "/chatgpts", label: "ChatGPTS", icon: Bot },
   { href: "/sosmed", label: "Sosmed", icon: Share2 },
   { href: "/favorites", label: "Favorites", icon: Star },
@@ -178,7 +178,7 @@ export function Sidebar() {
           const Icon = item.icon;
           const active = pathname === item.href;
 
-          if (item.label === "Ai Product") {
+          if (item.label === "Mobile Ai") {
             return (
               <div key={item.href} className="space-y-2">
                 <button
@@ -214,7 +214,7 @@ export function Sidebar() {
                       )}
                     >
                       <ExternalLink className="h-4 w-4" />
-                      <span className="truncate">All Ai Product</span>
+                      <span className="truncate">All Mobile Ai</span>
                     </Link>
                     {aiProductNavItems.map((p) => {
                       const subActive = pathname === `/project/${p.slug}`;
