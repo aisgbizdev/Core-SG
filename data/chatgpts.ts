@@ -27,7 +27,7 @@ export const chatgptLinks: ChatgptLink[] = [
     url: "https://chatgpt.com/g/g-69a661c1e9608191aa03b732251d6d1a-editorial-engine",
   },
   {
-    name: "Flex Sales",
+    name: "Prime Sales",
     slug: "flex-sales",
     url: "https://chatgpt.com/g/g-69cde65d2fa081919907393fcd892e6e-flex-sales",
   },
