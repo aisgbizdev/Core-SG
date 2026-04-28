@@ -52,3 +52,4 @@ export const chatgptLinks: ChatgptLink[] = [
     url: "https://chatgpt.com/g/g-690354fea4448191a1239464b9a2a31e-see-the-world-brighter",
   },
 ].sort((a, b) => a.name.localeCompare(b.name));
+

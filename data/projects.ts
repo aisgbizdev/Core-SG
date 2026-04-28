@@ -125,4 +125,16 @@ export const projects: Project[] = [
     url: "https://edukasi.newsmaker.id/",
     owner: "Learning & Development",
   },
+  {
+    id: "tradepilot",
+    name: "TradePilot",
+    slug: "tradepilot",
+    description: "AI trading assistant for market analysis and execution support",
+    status: "Active",
+    category: "AI",
+    icon: "sparkles",
+    url: "https://tradepilot-ai.replit.app/",
+    owner: "Trading Team",
+  },
 ];
+
